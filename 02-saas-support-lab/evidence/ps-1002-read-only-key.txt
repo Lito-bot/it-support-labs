@@ -1,0 +1,26 @@
+
+### Create with the key their integration uses
+
+$ curl -s -i -X POST http://127.0.0.1:8080/v1/shipments -H 'Authorization: Bearer pcl_live_<redacted>' -H 'Content-Type: application/json' -d '{"recipient_city":"Bariloche","weight_kg":3.2}'
+HTTP/1.1 403 Forbidden
+content-type: application/json
+x-request-id: req_8ac132752e0d
+
+{"error":"insufficient_scope","required_scope":"write","key_scope":"read","message":"This API key is read-only. Create a key with write scope in Settings > API keys.","request_id":"req_8ac132752e0d"}
+{"ts": "2026-09-24T23:31:58.989+00:00", "event": "scope_denied", "request_id": "req_8ac132752e0d", "customer_id": "cus_pampa", "key_prefix": "pcl_live_375", "key_scope": "read"}
+{"ts": "2026-09-24T23:31:58.989+00:00", "event": "request", "request_id": "req_8ac132752e0d", "method": "POST", "path": "/v1/shipments", "query": null, "status": 403, "duration_ms": 9, "customer_id": "cus_pampa", "key_prefix": "pcl_live_375"}
+
+### Which keys does this customer have? (support DB console, prefixes only)
+
+$ docker compose exec -T db psql -U parcelo -d parcelo -c 'SELECT key_prefix, scope, revoked, created_at::date FROM api_keys WHERE customer_id = '\''cus_pampa'\'' ORDER BY id'
+  key_prefix  | scope | revoked | created_at 
+--------------+-------+---------+------------
+ pcl_live_375 | read  | f       | 2026-09-24
+ pcl_live_1a3 | write | f       | 2026-09-24
+(2 rows)
+
+
+### Same request with their write-scoped key
+
+$ curl -s -o /dev/null -w 'HTTP %{http_code}\n' -X POST http://127.0.0.1:8080/v1/shipments -H 'Authorization: Bearer pcl_live_<redacted>' -H 'Content-Type: application/json' -d '{"recipient_city":"Bariloche","weight_kg":3.2}'
+HTTP 201

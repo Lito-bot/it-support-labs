@@ -1,0 +1,9 @@
+
+### Count vs list
+
+$ curl -s http://127.0.0.1:8080/v1/shipments/count -H 'Authorization: Bearer pcl_live_<redacted>'
+{"total":60}
+first page: 50 items, "has_more":true, "next_cursor":"aWQ6MTEw"
+
+### Following next_cursor
+second page: 10 items, "has_more":false

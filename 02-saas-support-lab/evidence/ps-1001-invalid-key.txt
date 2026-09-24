@@ -1,0 +1,18 @@
+
+### Reproduce what the customer sends (key wrapped in quotes)
+
+$ curl -s -i http://127.0.0.1:8080/v1/shipments -H 'Authorization: Bearer "pcl_live_<redacted>"'
+HTTP/1.1 401 Unauthorized
+content-type: application/json
+x-request-id: req_0221c55bff3a
+
+{"error":"invalid_api_key","message":"The API key provided is not valid.","request_id":"req_0221c55bff3a"}
+
+### Look up their request id (req_0221c55bff3a) in the API logs
+{"ts": "2026-09-24T23:44:53.638+00:00", "event": "auth_failed", "request_id": "req_0221c55bff3a", "reason": "invalid_api_key", "path": "/v1/shipments", "client_ip": "172.18.0.1", "key_prefix": "\"pcl_live_cc", "key_length": 35, "expected_length": 33}
+{"ts": "2026-09-24T23:44:53.638+00:00", "event": "request", "request_id": "req_0221c55bff3a", "method": "GET", "path": "/v1/shipments", "query": null, "status": 401, "duration_ms": 8, "customer_id": null, "key_prefix": null}
+
+### Same key without the quotes
+
+$ curl -s -o /dev/null -w 'HTTP %{http_code}\n' http://127.0.0.1:8080/v1/shipments -H 'Authorization: Bearer pcl_live_<redacted>'
+HTTP 200

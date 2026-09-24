@@ -9,6 +9,7 @@ This complements [it-support-portfolio](https://github.com/Lito-bot/it-support-p
 | # | Lab | What it is |
 |---|---|---|
 | 01 | [Riverbend AD Lab](01-active-directory-lab/) | Windows Server 2025 domain + Windows 11 client: AD DS, DNS, DHCP, AGDLP file shares, GPOs, a PowerShell help desk module, and eight tickets (onboarding, reset, lockout, permissions, transfer, offboarding, audit, domain join) |
+| 02 | [Parcelo SaaS Support Lab](02-saas-support-lab/) | A Dockerized SaaS API (FastAPI + PostgreSQL + signed webhooks) with eight technical-support tickets: 401/403/422/429, duplicate webhooks, pagination, and two product bugs escalated to engineering with root cause, query plans and failing tests |
 
 More labs land here as they're built.
 

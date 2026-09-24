@@ -1,0 +1,21 @@
+
+### Create one shipment
+{"id":8000125,"tracking_code":"PCL08000125","recipient_city":"Rosario","weight_kg":1.1,"status":"created","created_at":"2026-09-24T23:32:22.295422+00:00","updated_at":"2026-09-24T23:32:22.295422+00:00"}
+(waiting for deliveries and retries...)
+
+### Customer side: how many times their handler applied it
+times processed: 3
+{"ts": "2026-09-24T23:32:22.333+00:00", "event": "order_updated", "event_id": "evt_676c7dd1a34e2ad7", "type": "shipment.created", "tracking_code": "PCL08000125"}
+{"ts": "2026-09-24T23:32:26.349+00:00", "event": "order_updated", "event_id": "evt_676c7dd1a34e2ad7", "type": "shipment.created", "tracking_code": "PCL08000125"}
+{"ts": "2026-09-24T23:32:31.364+00:00", "event": "order_updated", "event_id": "evt_676c7dd1a34e2ad7", "type": "shipment.created", "tracking_code": "PCL08000125"}
+
+### Parcelo side: delivery attempts for that event
+
+$ docker compose exec -T db psql -U parcelo -d parcelo -c 'SELECT attempt, status_code, error, duration_ms FROM webhook_deliveries WHERE event_id = '\''evt_676c7dd1a34e2ad7'\'' ORDER BY attempt'
+ attempt | status_code |  error  | duration_ms 
+---------+-------------+---------+-------------
+       1 |             | timeout |        3005
+       2 |             | timeout |        3004
+       3 |             | timeout |        3004
+(3 rows)
+

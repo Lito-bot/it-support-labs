@@ -1,0 +1,12 @@
+
+### Their request
+
+$ curl -s -w '\nHTTP %{http_code}\n' -X POST http://127.0.0.1:8080/v1/shipments -H 'Authorization: Bearer pcl_live_<redacted>' -H 'Content-Type: application/json' -d '{"recipient_city":"Tandil","weight_kg":"2,5"}'
+{"detail":[{"type":"float_parsing","loc":["body","weight_kg"],"msg":"Input should be a valid number, unable to parse string as a number","input":"2,5"}]}
+HTTP 422
+
+### Same shipment with a decimal point and a JSON number
+
+$ curl -s -w '\nHTTP %{http_code}\n' -X POST http://127.0.0.1:8080/v1/shipments -H 'Authorization: Bearer pcl_live_<redacted>' -H 'Content-Type: application/json' -d '{"recipient_city":"Tandil","weight_kg":2.5}'
+{"id":8000124,"tracking_code":"PCL08000124","recipient_city":"Tandil","weight_kg":2.5,"status":"created","created_at":"2026-09-24T23:32:00.609019+00:00","updated_at":"2026-09-24T23:32:00.609019+00:00"}
+HTTP 201

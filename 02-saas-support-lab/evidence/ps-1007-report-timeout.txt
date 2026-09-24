@@ -1,0 +1,79 @@
+
+### Their request: last 7 days
+
+$ curl -s -i 'http://127.0.0.1:8080/v1/reports/daily?from=2026-09-18&to=2026-09-24' -H 'Authorization: Bearer pcl_live_<redacted>'
+HTTP/1.1 504 Gateway Timeout
+content-type: application/json
+x-request-id: req_f94915515e1c
+
+{"error":"report_timeout","message":"The report took too long. Try a shorter date range.","request_id":"req_f94915515e1c"}
+{"ts": "2026-09-24T23:34:34.240+00:00", "event": "report_timeout", "request_id": "req_f94915515e1c", "customer_id": "cus_mega", "timeout_ms": 150, "elapsed_ms": 163, "date_from": "2026-09-18", "date_to": "2026-09-24"}
+{"ts": "2026-09-24T23:34:34.240+00:00", "event": "request", "request_id": "req_f94915515e1c", "method": "GET", "path": "/v1/reports/daily", "query": "from=2026-09-18&to=2026-09-24", "status": 504, "duration_ms": 173, "customer_id": "cus_mega", "key_prefix": "pcl_live_c7a"}
+
+### Does it happen to a small customer too? (Andes Deco, same endpoint)
+
+$ curl -s -o /dev/null -w 'HTTP %{http_code} in %{time_total}s\n' 'http://127.0.0.1:8080/v1/reports/daily?from=2026-09-18&to=2026-09-24' -H 'Authorization: Bearer pcl_live_<redacted>'
+HTTP 200 in 0.023156s
+
+### Query plan for MegaEnvíos (read-only EXPLAIN)
+
+$ docker compose exec -T db psql -U parcelo -d parcelo -c 'EXPLAIN (ANALYZE, BUFFERS) SELECT (created_at AT TIME ZONE '\''UTC'\'')::date AS day, count(*) FROM shipments
+   WHERE customer_id = '\''cus_mega'\'' AND created_at >= '\''2026-09-18'\'' AND created_at < '\''2026-09-24'\''::date + 1 GROUP BY 1 ORDER BY 1'
+                                                                                    QUERY PLAN                                                                                     
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Finalize GroupAggregate  (cost=152261.81..159979.64 rows=61877 width=12) (actual time=138.023..144.523 rows=7 loops=1)
+   Group Key: (((created_at AT TIME ZONE 'UTC'::text))::date)
+   Buffers: shared hit=15902 read=75082
+   ->  Gather Merge  (cost=152261.81..158793.67 rows=51564 width=12) (actual time=137.764..144.501 rows=21 loops=1)
+         Workers Planned: 2
+         Workers Launched: 2
+         Buffers: shared hit=15902 read=75082
+         ->  Partial GroupAggregate  (cost=151261.78..151841.88 rows=25782 width=12) (actual time=125.592..126.775 rows=7 loops=3)
+               Group Key: (((created_at AT TIME ZONE 'UTC'::text))::date)
+               Buffers: shared hit=15902 read=75082
+               ->  Sort  (cost=151261.78..151326.24 rows=25782 width=4) (actual time=125.358..126.008 rows=25495 loops=3)
+                     Sort Key: (((created_at AT TIME ZONE 'UTC'::text))::date)
+                     Sort Method: quicksort  Memory: 769kB
+                     Buffers: shared hit=15902 read=75082
+                     Worker 0:  Sort Method: quicksort  Memory: 769kB
+                     Worker 1:  Sort Method: quicksort  Memory: 769kB
+                     ->  Parallel Seq Scan on shipments  (cost=0.00..149372.72 rows=25782 width=4) (actual time=6.714..123.267 rows=25495 loops=3)
+                           Filter: ((created_at >= '2026-09-18 00:00:00+00'::timestamp with time zone) AND (created_at < '2026-09-25'::date) AND (customer_id = 'cus_mega'::text))
+                           Rows Removed by Filter: 2641194
+                           Buffers: shared hit=15828 read=75082
+ Planning:
+   Buffers: shared hit=126
+ Planning Time: 0.797 ms
+ JIT:
+   Functions: 27
+   Options: Inlining false, Optimization false, Expressions true, Deforming true
+   Timing: Generation 2.275 ms, Inlining 0.000 ms, Optimization 0.875 ms, Emission 19.264 ms, Total 22.414 ms
+ Execution Time: 159.080 ms
+(28 rows)
+
+
+### Proposed fix, tested inside a transaction that is rolled back (nothing is changed)
+
+$ docker compose exec -T db psql -U parcelo -d parcelo -c '
+BEGIN;
+CREATE INDEX shipments_customer_created ON shipments (customer_id, created_at);
+EXPLAIN (ANALYZE) SELECT (created_at AT TIME ZONE '\''UTC'\'')::date AS day, count(*) FROM shipments
+   WHERE customer_id = '\''cus_mega'\'' AND created_at >= '\''2026-09-18'\'' AND created_at < '\''2026-09-24'\''::date + 1 GROUP BY 1 ORDER BY 1;
+ROLLBACK;'
+BEGIN
+CREATE INDEX
+                                                                                QUERY PLAN                                                                                 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=7858.69..9250.92 rows=61877 width=12) (actual time=19.238..22.835 rows=7 loops=1)
+   Group Key: (((created_at AT TIME ZONE 'UTC'::text))::date)
+   ->  Sort  (cost=7858.69..8013.38 rows=61877 width=4) (actual time=18.617..20.483 rows=76486 loops=1)
+         Sort Key: (((created_at AT TIME ZONE 'UTC'::text))::date)
+         Sort Method: quicksort  Memory: 3073kB
+         ->  Index Only Scan using shipments_customer_created on shipments  (cost=0.56..2934.18 rows=61877 width=4) (actual time=0.054..14.721 rows=76486 loops=1)
+               Index Cond: ((customer_id = 'cus_mega'::text) AND (created_at >= '2026-09-18 00:00:00+00'::timestamp with time zone) AND (created_at < '2026-09-25'::date))
+               Heap Fetches: 0
+ Planning Time: 0.876 ms
+ Execution Time: 23.049 ms
+(10 rows)
+
+ROLLBACK

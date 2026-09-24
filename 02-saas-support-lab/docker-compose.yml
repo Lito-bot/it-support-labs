@@ -1,0 +1,41 @@
+name: parcelo
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: parcelo
+      POSTGRES_PASSWORD: parcelo   # local lab only, never exposed beyond localhost
+      POSTGRES_DB: parcelo
+    volumes:
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U parcelo -d parcelo"]
+      interval: 3s
+      retries: 20
+
+  api:
+    build: ./app
+    environment:
+      SEED_ON_STARTUP: "1"
+    volumes:
+      - ./shared:/shared
+    ports:
+      - "127.0.0.1:8080:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  customer:
+    # "Sur Market", a customer shop receiving Parcelo webhooks with their own code.
+    build: ./customer-sim
+    volumes:
+      - ./shared:/shared
+    ports:
+      - "127.0.0.1:8090:8000"
+
+volumes:
+  pgdata:

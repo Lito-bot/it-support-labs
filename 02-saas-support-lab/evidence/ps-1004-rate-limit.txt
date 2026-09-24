@@ -1,0 +1,37 @@
+
+### What their sync does: 15 requests as fast as possible
+request  1 -> 200
+request  2 -> 200
+request  3 -> 200
+request  4 -> 200
+request  5 -> 200
+request  6 -> 200
+request  7 -> 200
+request  8 -> 200
+request  9 -> 200
+request 10 -> 200
+request 11 -> 429
+request 12 -> 429
+request 13 -> 429
+request 14 -> 429
+request 15 -> 429
+
+### The 429 response in full
+
+$ curl -s -i http://127.0.0.1:8080/v1/shipments -H 'Authorization: Bearer pcl_live_<redacted>'
+HTTP/1.1 429 Too Many Requests
+retry-after: 10
+content-type: application/json
+x-request-id: req_b4d5f795851a
+
+{"error":"rate_limited","retry_after_s":10,"message":"Too many requests for this API key. Retry after 10s.","request_id":"req_b4d5f795851a"}
+
+### API log: rate-limit events for this customer in the last minute
+rate_limited events: 6
+{"ts": "2026-09-24T23:32:01.778+00:00", "event": "rate_limited", "request_id": "req_b4d5f795851a", "customer_id": "cus_litoral", "key_prefix": "pcl_live_d96", "retry_after_s": 10}
+
+### A client that honours Retry-After
+Retry-After: 9s -> sleeping, then retrying
+
+$ curl -s -o /dev/null -w 'HTTP %{http_code}\n' http://127.0.0.1:8080/v1/shipments -H 'Authorization: Bearer pcl_live_<redacted>'
+HTTP 200

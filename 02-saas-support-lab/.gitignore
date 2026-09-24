@@ -1,0 +1,4 @@
+# generated at first boot: API keys, webhook secret, scratch request bodies
+shared/
+__pycache__/
+.pytest_cache/
