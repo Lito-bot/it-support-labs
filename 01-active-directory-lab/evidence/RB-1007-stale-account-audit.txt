@@ -1,0 +1,30 @@
+PS> Get-StaleAccountReport -InactiveDays 90 | Sort-Object Finding, SamAccountName
+
+SamAccountName  Department Enabled LastLogon Finding                      
+--------------  ---------- ------- --------- -------                      
+aisha.bello     Finance       True           Never logged on (new account)
+camila.duarte   Sales         True           Never logged on (new account)
+ethan.park      IT            True           Never logged on (new account)
+julian.paz      Operations    True           Never logged on (new account)
+laura.mendez    Finance       True           Never logged on (new account)
+lucia.herrera   IT            True           Never logged on (new account)
+marco.rossi     Operations    True           Never logged on (new account)
+maria.gonzalez  Sales         True           Never logged on (new account)
+maria.gonzalez2 Operations    True           Never logged on (new account)
+priya.nair      Finance       True           Never logged on (new account)
+sofia.castro    HR            True           Never logged on (new account)
+svc-scan2mail                 True           Never logged on (new account)
+tomas.ferreyra  Finance       True           Never logged on (new account)
+svc-scan2mail                 True           Password never expires       
+
+
+
+PS> summary by finding
+
+Count Name                         
+----- ----                         
+   13 Never logged on (new account)
+    1 Password never expires       
+
+
+

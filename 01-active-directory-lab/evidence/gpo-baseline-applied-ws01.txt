@@ -1,0 +1,32 @@
+PS> registry values delivered by 'WS - Security Baseline' on WS01
+
+
+InactivityTimeoutSecs   : 600
+dontdisplaylastusername : 1
+legalnoticecaption      : Riverbend Logistics - authorized use only
+
+
+
+
+
+
+Deny_Write : 1
+
+
+
+
+DomainProfile EnableFirewall = 1
+PrivateProfile EnableFirewall = 1
+PublicProfile EnableFirewall = 1
+SyncForegroundPolicy = 1
+
+PS> Get-NetFirewallProfile | Select Name, Enabled
+
+Name    Enabled
+----    -------
+Domain     True
+Private    True
+Public     True
+
+
+

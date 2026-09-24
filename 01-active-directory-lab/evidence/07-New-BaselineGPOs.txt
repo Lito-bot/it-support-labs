@@ -1,0 +1,9 @@
+Configured 'WS - Security Baseline' -> OU=Workstations,OU=Riverbend,DC=corp,DC=riverbend,DC=internal
+Configured 'USR - Drive Maps' -> OU=Users,OU=Riverbend,DC=corp,DC=riverbend,DC=internal
+
+DisplayName                     GpoStatus UserVer ComputerVer
+-----------                     --------- ------- -----------
+WS - Security Baseline AllSettingsEnabled       0          17
+USR - Drive Maps       AllSettingsEnabled       2           0
+
+

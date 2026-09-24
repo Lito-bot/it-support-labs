@@ -1,0 +1,4 @@
+DC01 before: AutoAdminLogon=1 DefaultUserName=labadmin DefaultPassword present=False
+DC01 after:  AutoAdminLogon=0 DefaultPassword present=False
+WS01 before: AutoAdminLogon=1 DefaultUserName=labadmin DefaultPassword present=False
+WS01 after:  AutoAdminLogon=0 DefaultPassword present=False

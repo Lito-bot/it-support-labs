@@ -1,0 +1,27 @@
+Before - logon from WS01 as hannah.schmidt: riverbend\hannah.schmidt
+
+PS> Invoke-RiverbendOffboarding -SamAccountName hannah.schmidt -Ticket RB-1006
+
+
+SamAccountName : hannah.schmidt
+Enabled        : False
+Description    : Offboarded 2026-09-24 (RB-1006). Delete after 2026-10-24.
+GroupCount     : 0
+
+
+
+
+
+
+OU : OU=Disabled Users
+
+
+
+
+PS> Import-Csv C:\HelpDesk\Offboarding\RB-1006-hannah.schmidt-groups.csv   # saved before removal, in case HR reverses the decision
+GG-All-Staff
+GG-HR
+
+PS> Reset-RiverbendPassword -SamAccountName hannah.schmidt -Ticket RB-1006-x -IdentityVerifiedBy CallbackToManager   # guard rail
+Refused: hannah.schmidt is disabled - resets on disabled accounts need HR approval.
+After - logon from WS01 as hannah.schmidt: VBoxManage.exe: error: Waiting for guest process failed: The specified user account on the guest is restricted and can't be used to logon

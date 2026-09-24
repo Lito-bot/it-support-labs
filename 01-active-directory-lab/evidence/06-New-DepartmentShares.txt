@@ -1,0 +1,17 @@
+Share \\DC01\Finance ready
+Share \\DC01\Sales ready
+Share \\DC01\HR ready
+Share \\DC01\Operations ready
+Share \\DC01\IT ready
+Share \\DC01\Public ready
+
+Name       Path                 FolderEnumerationMode
+----       ----                 ---------------------
+Finance    C:\Shares\Finance              AccessBased
+HR         C:\Shares\HR                   AccessBased
+IT         C:\Shares\IT                   AccessBased
+Operations C:\Shares\Operations           AccessBased
+Public     C:\Shares\Public               AccessBased
+Sales      C:\Shares\Sales                AccessBased
+
+

@@ -1,0 +1,32 @@
+PS> Get-ADUser aisha.bello (before)
+
+
+SamAccountName : aisha.bello
+Department     : Operations
+Title          : Operations Analyst
+OU             : OU=Operations
+Groups         : GG-All-Staff, GG-Operations
+
+
+
+
+PS> Move-RiverbendUserDepartment -SamAccountName aisha.bello -NewDepartment Finance -NewTitle 'Financial Analyst' -Ticket RB-1005
+
+
+SamAccountName : aisha.bello
+Department     : Finance
+Title          : Financial Analyst
+Groups         : GG-All-Staff, GG-Finance
+
+
+
+
+
+
+NewOU : OU=Finance
+
+
+
+
+PS> Move-RiverbendUserDepartment -SamAccountName aisha.bello -NewDepartment Finance ... (run twice by mistake)
+Refused: aisha.bello is already in Finance.

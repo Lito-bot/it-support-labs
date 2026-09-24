@@ -1,0 +1,8 @@
+Name         : WS01
+Domain       : corp.riverbend.internal
+PartOfDomain : True
+
+Flags: 30 HAS_IP  HAS_TIMESERV  Authentication Service: Netlogon
+Trusted DC Name \\DC01.corp.riverbend.internal 
+Trusted DC Connection Status Status = 0 0x0 NERR_Success
+The command completed successfully

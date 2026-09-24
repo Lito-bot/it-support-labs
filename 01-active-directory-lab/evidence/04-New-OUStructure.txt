@@ -1,0 +1,31 @@
+Created OU OU=Riverbend,DC=corp,DC=riverbend,DC=internal
+Created OU OU=Users,OU=Riverbend,DC=corp,DC=riverbend,DC=internal
+Created OU OU=Groups,OU=Riverbend,DC=corp,DC=riverbend,DC=internal
+Created OU OU=Workstations,OU=Riverbend,DC=corp,DC=riverbend,DC=internal
+Created OU OU=Service Accounts,OU=Riverbend,DC=corp,DC=riverbend,DC=internal
+Created OU OU=Disabled Users,OU=Riverbend,DC=corp,DC=riverbend,DC=internal
+Created OU OU=Role,OU=Groups,OU=Riverbend,DC=corp,DC=riverbend,DC=internal
+Created OU OU=Resource,OU=Groups,OU=Riverbend,DC=corp,DC=riverbend,DC=internal
+Created OU OU=Finance,OU=Users,OU=Riverbend,DC=corp,DC=riverbend,DC=internal
+Created group GG-Finance
+Created group DL-Share-Finance-RW
+Created group DL-Share-Finance-RO
+Created OU OU=Sales,OU=Users,OU=Riverbend,DC=corp,DC=riverbend,DC=internal
+Created group GG-Sales
+Created group DL-Share-Sales-RW
+Created group DL-Share-Sales-RO
+Created OU OU=HR,OU=Users,OU=Riverbend,DC=corp,DC=riverbend,DC=internal
+Created group GG-HR
+Created group DL-Share-HR-RW
+Created group DL-Share-HR-RO
+Created OU OU=Operations,OU=Users,OU=Riverbend,DC=corp,DC=riverbend,DC=internal
+Created group GG-Operations
+Created group DL-Share-Operations-RW
+Created group DL-Share-Operations-RO
+Created OU OU=IT,OU=Users,OU=Riverbend,DC=corp,DC=riverbend,DC=internal
+Created group GG-IT
+Created group DL-Share-IT-RW
+Created group DL-Share-IT-RO
+Created group GG-All-Staff
+Created group DL-Share-Public-RW
+Default computer container redirected to OU=Workstations,OU=Riverbend,DC=corp,DC=riverbend,DC=internal

@@ -1,0 +1,5 @@
+# lab secrets and credential handoff files never get committed
+*.pw
+*.tmp
+new-hire-credentials*.csv
+Thumbs.db

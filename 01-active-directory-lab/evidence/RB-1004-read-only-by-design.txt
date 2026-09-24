@@ -1,0 +1,30 @@
+From WS01 as RIVERBEND\kevin.obrien (Sales Manager):
+whoami: riverbend\kevin.obrien
+PS> Get-Content \\DC01\Finance\Q3-price-list.txt
+Riverbend Q3 price list (lab sample data)
+
+PS> Add-Content \\DC01\Finance\Q3-price-list.txt 'Discount 15% for ACME'
+ERROR: Access to the path '\\DC01\Finance\Q3-price-list.txt' is denied.
+
+PS> Get-ChildItem \\DC01\HR
+ERROR: Access to the path '\\DC01\HR' is denied.
+
+On DC01 - why:
+PS> (Get-Acl C:\Shares\Finance).Access
+
+IdentityReference                        FileSystemRights AccessControlType
+-----------------                        ---------------- -----------------
+NT AUTHORITY\SYSTEM                           FullControl             Allow
+BUILTIN\Administrators                        FullControl             Allow
+RIVERBEND\DL-Share-Finance-RW         Modify, Synchronize             Allow
+RIVERBEND\DL-Share-Finance-RO ReadAndExecute, Synchronize             Allow
+
+
+
+PS> Get-ADPrincipalGroupMembership kevin.obrien
+Domain Users
+GG-Sales
+GG-All-Staff
+
+PS> Get-ADGroupMember DL-Share-Finance-RO
+GG-Sales

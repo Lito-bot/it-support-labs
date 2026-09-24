@@ -1,0 +1,15 @@
+PS> ipconfig /release; ipconfig /renew
+PS> ipconfig /all | Select-String 'IPv4 Address|DHCP Server|DNS Servers|DNS Suffix'
+   Connection-specific DNS Suffix  . : corp.riverbend.internal
+   IPv4 Address. . . . . . . . . . . : 10.0.50.100(Preferred) 
+   DHCP Server . . . . . . . . . . . : 10.0.50.10
+   DNS Servers . . . . . . . . . . . : 10.0.50.10
+
+PS> Resolve-DnsName _ldap._tcp.dc._msdcs.corp.riverbend.internal -Type SRV
+
+NameTarget                   Port Priority
+----------                   ---- --------
+dc01.corp.riverbend.internal  389        0
+
+
+

@@ -1,0 +1,15 @@
+PS> gpresult /user RIVERBEND\nicolas.vega /scope user /r
+USER SETTINGS
+    CN=Nicolás Vega (nicolas.vega),OU=Finance,OU=Users,OU=Riverbend,DC=corp,DC=riverbend,DC=internal
+    Last time Group Policy was applied: 9/24/2026 at 8:35:57 AM
+    Applied Group Policy Objects
+        USR - Drive Maps
+    The user is a part of the following security groups
+        Domain Users
+        GG-Finance
+        GG-All-Staff
+
+PS> gpresult /scope computer /r (applied GPOs)
+    CN=WS01,OU=Workstations,OU=Riverbend,DC=corp,DC=riverbend,DC=internal
+        WS - Security Baseline
+        Default Domain Policy

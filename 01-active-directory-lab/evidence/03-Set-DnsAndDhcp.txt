@@ -1,0 +1,11 @@
+WARNING: Waiting for service 'DHCP Server (DHCPServer)' to start...
+
+ScopeId   StartRange  EndRange    State 
+-------   ----------  --------    ----- 
+10.0.50.0 10.0.50.100 10.0.50.200 Active
+                                        
+                                        
+                                        
+                                        
+
+

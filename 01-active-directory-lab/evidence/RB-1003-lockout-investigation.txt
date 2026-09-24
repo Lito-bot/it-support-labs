@@ -1,0 +1,53 @@
+Simulated from WS01: 6 logons as RIVERBEND\diego.ramirez with an old password
+attempt 1 : logon failed
+attempt 2 : logon failed
+attempt 3 : logon failed
+attempt 4 : logon failed
+attempt 5 : logon failed
+attempt 6 : logon failed
+
+PS> Get-ADUser diego.ramirez -Properties LockedOut, BadLogonCount, LastBadPasswordAttempt
+
+
+SamAccountName         : diego.ramirez
+LockedOut              : True
+BadLogonCount          : 5
+LastBadPasswordAttempt : 9/24/2026 8:40:56 AM
+
+
+
+
+PS> Get-LockoutSource -SamAccountName diego.ramirez -HoursBack 1
+
+Time                 Event Meaning                  Source     
+----                 ----- -------                  ------     
+9/24/2026 8:39:23 AM  4740 Account locked out       WS01       
+9/24/2026 8:40:44 AM  4771 Kerberos pre-auth failed 10.0.50.100
+9/24/2026 8:40:47 AM  4771 Kerberos pre-auth failed 10.0.50.100
+9/24/2026 8:40:50 AM  4771 Kerberos pre-auth failed 10.0.50.100
+9/24/2026 8:40:53 AM  4771 Kerberos pre-auth failed 10.0.50.100
+9/24/2026 8:40:56 AM  4771 Kerberos pre-auth failed 10.0.50.100
+9/24/2026 8:40:56 AM  4740 Account locked out       WS01       
+9/24/2026 8:40:59 AM  4771 Kerberos pre-auth failed 10.0.50.100
+9/24/2026 8:41:00 AM  4771 Kerberos pre-auth failed 10.0.50.100
+
+
+
+PS> Resolve-DnsName 10.0.50.100
+
+PS> Resolve-DnsName 10.0.50.100
+
+PS> Unlock-ADAccount diego.ramirez   # unlock, not reset: the user knows the current password
+
+
+SamAccountName : diego.ramirez
+LockedOut      : False
+
+
+
+
+
+Verification - logon from WS01 with the current password: riverbend\diego.ramirez
+
+Open follow-up (not resolved in this lab): reverse DNS for DHCP clients.
+Resolve-DnsName 10.0.50.100 returns no PTR record. Secure dynamic updates were enabled on the reverse zone and the DHCP scope is set to update DNS 'Always', but the DHCP server log shows no DNS update requests for the lease. The lockout was still traceable because event 4740 carries the caller computer name (WS01).

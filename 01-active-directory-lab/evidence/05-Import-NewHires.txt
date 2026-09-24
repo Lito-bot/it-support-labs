@@ -1,0 +1,21 @@
+
+SamAccountName  DisplayName    Department Title                   
+--------------  -----------    ---------- -----                   
+laura.mendez    Laura Méndez   Finance    Accounts Payable Analyst
+priya.nair      Priya Nair     Finance    Payroll Specialist      
+tomas.ferreyra  Tomás Ferreyra Finance    Finance Manager         
+hannah.schmidt  Hannah Schmidt HR         Recruiter               
+sofia.castro    Sofía Castro   HR         HR Generalist           
+ethan.park      Ethan Park     IT         Systems Administrator   
+lucia.herrera   Lucía Herrera  IT         Service Desk Analyst    
+aisha.bello     Aisha Bello    Operations Operations Analyst      
+julian.paz      Julián Paz     Operations Warehouse Supervisor    
+marco.rossi     Marco Rossi    Operations Fleet Coordinator       
+maria.gonzalez2 María González Operations Logistics Coordinator   
+camila.duarte   Camila Duarte  Sales      Sales Development Rep   
+diego.ramirez   Diego Ramírez  Sales      Account Executive       
+kevin.obrien    Kevin O'Brien  Sales      Sales Manager           
+maria.gonzalez  María González Sales      Sales Development Rep   
+
+
+

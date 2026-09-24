@@ -1,0 +1,20 @@
+
+
+DNSRoot     : corp.riverbend.internal
+NetBIOSName : RIVERBEND
+DomainMode  : Windows2016Domain
+PDCEmulator : DC01.corp.riverbend.internal
+
+
+
+
+
+Name      Status
+----      ------
+DNS      Running
+Kdc      Running
+Netlogon Running
+NTDS     Running
+
+
+

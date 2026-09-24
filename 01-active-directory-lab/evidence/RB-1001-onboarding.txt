@@ -1,0 +1,37 @@
+PS> New-RiverbendUser -GivenName 'Nicolás' -Surname 'Vega' -Department Finance -Title 'Junior Accountant' -Office 'Buenos Aires' -Ticket RB-1001
+
+
+SamAccountName : nicolas.vega
+DisplayName    : Nicolás Vega
+Department     : Finance
+TempPassword   : <sent to manager out-of-band>
+
+
+
+
+PS> Get-ADUser nicolas.vega -Properties MemberOf, pwdLastSet, Enabled
+
+
+SamAccountName     : nicolas.vega
+UserPrincipalName  : nicolas.vega@corp.riverbend.internal
+Enabled            : True
+DistinguishedName  : CN=Nicolás Vega (nicolas.vega),OU=Finance,OU=Users,OU=Riverbend,DC=corp,DC=riverbend,DC=internal
+MustChangePassword : True
+Groups             : GG-All-Staff, GG-Finance
+
+
+
+
+PS> Import-Csv C:\HelpDesk\Logs\audit.csv | Where-Object Ticket -eq RB-1001
+
+
+Timestamp : 2026-09-24T08:13:31
+Ticket    : RB-1001
+Action    : Onboard
+Target    : nicolas.vega
+Detail    : OU=Finance; groups GG-Finance, GG-All-Staff
+Operator  : RIVERBEND\Administrator
+
+
+
+

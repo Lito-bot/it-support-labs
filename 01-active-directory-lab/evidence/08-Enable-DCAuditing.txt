@@ -1,0 +1,13 @@
+
+Logon/Logoff
+  Other Logon/Logoff Events               No Auditing
+  Special Logon                           Success
+  Logon                                   Success and Failure
+  Security Group Management               Success and Failure
+  User Account Management                 Success and Failure
+Account Logon
+  Other Account Logon Events              No Auditing
+  Credential Validation                   Success and Failure
+  Kerberos Authentication Service         Success and Failure
+
+

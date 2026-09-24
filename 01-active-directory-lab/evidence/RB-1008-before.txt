@@ -1,0 +1,10 @@
+PS> ipconfig /all | Select-String 'IPv4 Address|DHCP Server|DNS Servers'
+   IPv4 Address. . . . . . . . . . . : 10.0.50.3(Preferred) 
+   DHCP Server . . . . . . . . . . . : 10.0.50.2
+   DNS Servers . . . . . . . . . . . : <ISP resolver>
+
+PS> Resolve-DnsName _ldap._tcp.dc._msdcs.corp.riverbend.internal -Type SRV
+ERROR: _ldap._tcp.dc._msdcs.corp.riverbend.internal : DNS name does not exist
+
+PS> Add-Computer -DomainName corp.riverbend.internal -Credential RIVERBEND\Administrator
+ERROR: Computer 'WS01' failed to join domain 'corp.riverbend.internal' from its current workgroup 'WORKGROUP' with following error message: The specified domain either does not exist or could not be contacted.
